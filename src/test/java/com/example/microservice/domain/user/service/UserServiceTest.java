@@ -29,13 +29,13 @@ class UserServiceTest {
 
     @BeforeEach
     void setUp() {
-        validRequest = CreateUserRequest.builder()
-                .name("John Doe")
-                .email("john@example.com")
-                .phone("1234567890")
-                .address("123 Main St")
-                .role(User.UserRole.USER)
-                .build();
+        validRequest = new CreateUserRequest(
+                "John Doe",
+                "john@example.com",
+                "1234567890",
+                "123 Main St",
+                User.UserRole.USER
+        );
     }
 
     @Test
@@ -65,11 +65,13 @@ class UserServiceTest {
     @Test
     void testGetUserByEmailSuccess() {
         // Given
-        User user = User.builder()
-                .name("John Doe")
-                .email("john@example.com")
-                .role(User.UserRole.USER)
-                .build();
+        User user = new User(
+                "John Doe",
+                "john@example.com",
+                null,
+                null,
+                User.UserRole.USER
+        );
         user.id = 1L;
 
         when(userRepository.findByEmailActive(anyString()))

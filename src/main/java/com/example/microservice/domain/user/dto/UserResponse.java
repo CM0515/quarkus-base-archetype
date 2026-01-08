@@ -2,57 +2,49 @@ package com.example.microservice.domain.user.dto;
 
 import com.example.microservice.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 
-@Data
-@NoArgsConstructor
-@AllArgsConstructor
-@Builder
-public class UserResponse {
-
+public record UserResponse(
     @JsonProperty("id")
-    private Long id;
+    Long id,
 
     @JsonProperty("name")
-    private String name;
+    String name,
 
     @JsonProperty("email")
-    private String email;
+    String email,
 
     @JsonProperty("phone")
-    private String phone;
+    String phone,
 
     @JsonProperty("address")
-    private String address;
+    String address,
 
     @JsonProperty("role")
-    private User.UserRole role;
+    User.UserRole role,
 
     @JsonProperty("created_at")
-    private LocalDateTime createdAt;
+    LocalDateTime createdAt,
 
     @JsonProperty("updated_at")
-    private LocalDateTime updatedAt;
+    LocalDateTime updatedAt,
 
     @JsonProperty("is_active")
-    private Boolean isActive;
+    Boolean isActive
+) {
 
     public static UserResponse fromEntity(User user) {
-        return UserResponse.builder()
-                .id(user.id)
-                .name(user.getName())
-                .email(user.getEmail())
-                .phone(user.getPhone())
-                .address(user.getAddress())
-                .role(user.getRole())
-                .createdAt(user.getCreatedAt())
-                .updatedAt(user.getUpdatedAt())
-                .isActive(user.getIsActive())
-                .build();
+        return new UserResponse(
+                user.id,
+                user.getName(),
+                user.getEmail(),
+                user.getPhone(),
+                user.getAddress(),
+                user.getRole(),
+                user.getCreatedAt(),
+                user.getUpdatedAt(),
+                user.getIsActive()
+        );
     }
 }

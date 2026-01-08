@@ -10,14 +10,15 @@ import jakarta.annotation.PostConstruct;
 import jakarta.enterprise.context.ApplicationScoped;
 import jakarta.inject.Inject;
 import jakarta.transaction.Transactional;
-import lombok.extern.slf4j.Slf4j;
+import org.jboss.logging.Logger;
 
 import java.util.List;
 
-@Slf4j
 @ApplicationScoped
 @Transactional
 public class UserService extends BaseService<User, UserRepository> {
+
+    private static final Logger log = Logger.getLogger(UserService.class);
 
     @Inject
     UserRepository userRepository;
@@ -28,13 +29,13 @@ public class UserService extends BaseService<User, UserRepository> {
     }
 
     public User createUser(CreateUserRequest request) {
-        log.debug("Creating user with email: {}", request.getEmail());
+        log.debug("Creating user with email: " + request.email());
 
-        if (userRepository.existsByEmail(request.getEmail())) {
+        if (userRepository.existsByEmail(request.email())) {
             throw new AppException(
                     ErrorCode.DUPLICATE_RESOURCE,
                     409,
-                    "El email " + request.getEmail() + " ya está registrado"
+                    "El email " + request.email() + " ya está registrado"
             );
         }
 
@@ -43,7 +44,7 @@ public class UserService extends BaseService<User, UserRepository> {
     }
 
     public User getUserByEmail(String email) {
-        log.debug("Fetching user by email: {}", email);
+        log.debug("Fetching user by email: " + email);
         return userRepository.findByEmailActive(email)
                 .orElseThrow(() -> new AppException(
                         ErrorCode.RESOURCE_NOT_FOUND,
@@ -53,25 +54,25 @@ public class UserService extends BaseService<User, UserRepository> {
     }
 
     public User updateUser(Long id, CreateUserRequest request) {
-        log.debug("Updating user with id: {}", id);
+        log.debug("Updating user with id: " + id);
 
         User user = findById(id);
 
         // Si el email cambió, validar que no exista otro usuario con ese email
-        if (!user.getEmail().equals(request.getEmail()) && 
-            userRepository.existsByEmail(request.getEmail())) {
+        if (!user.getEmail().equals(request.email()) &&
+            userRepository.existsByEmail(request.email())) {
             throw new AppException(
                     ErrorCode.DUPLICATE_RESOURCE,
                     409,
-                    "El email " + request.getEmail() + " ya está registrado"
+                    "El email " + request.email() + " ya está registrado"
             );
         }
 
-        user.setName(request.getName());
-        user.setEmail(request.getEmail());
-        user.setPhone(request.getPhone());
-        user.setAddress(request.getAddress());
-        user.setRole(request.getRole());
+        user.setName(request.name());
+        user.setEmail(request.email());
+        user.setPhone(request.phone());
+        user.setAddress(request.address());
+        user.setRole(request.role());
 
         return update(user);
     }

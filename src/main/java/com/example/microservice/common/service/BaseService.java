@@ -4,17 +4,17 @@ import com.example.microservice.common.entity.BaseEntity;
 import com.example.microservice.common.exception.AppException;
 import com.example.microservice.common.exception.ErrorCode;
 import com.example.microservice.common.repository.BaseRepository;
-import lombok.extern.slf4j.Slf4j;
+import org.jboss.logging.Logger;
 
 import java.util.List;
 
-@Slf4j
 public abstract class BaseService<T extends BaseEntity, R extends BaseRepository<T>> {
 
+    protected static final Logger log = Logger.getLogger(BaseService.class);
     protected R repository;
 
     public T create(T entity) {
-        log.debug("Creating entity of type {}", entity.getClass().getSimpleName());
+        log.debug("Creating entity of type " + entity.getClass().getSimpleName());
         try {
             repository.persistAndFlush(entity);
             return entity;
@@ -29,7 +29,7 @@ public abstract class BaseService<T extends BaseEntity, R extends BaseRepository
     }
 
     public T update(T entity) {
-        log.debug("Updating entity of type {}", entity.getClass().getSimpleName());
+        log.debug("Updating entity of type " + entity.getClass().getSimpleName());
         try {
             return repository.getEntityManager().merge(entity);
         } catch (Exception e) {
@@ -43,7 +43,7 @@ public abstract class BaseService<T extends BaseEntity, R extends BaseRepository
     }
 
     public void delete(Long id) {
-        log.debug("Deleting entity with id {}", id);
+        log.debug("Deleting entity with id " + id);
         try {
             repository.deleteById(id);
         } catch (Exception e) {
@@ -57,7 +57,7 @@ public abstract class BaseService<T extends BaseEntity, R extends BaseRepository
     }
 
     public T findById(Long id) {
-        log.debug("Finding entity with id {}", id);
+        log.debug("Finding entity with id " + id);
         return repository.findByIdOptional(id)
                 .orElseThrow(() -> new AppException(
                         ErrorCode.RESOURCE_NOT_FOUND,
@@ -77,7 +77,7 @@ public abstract class BaseService<T extends BaseEntity, R extends BaseRepository
     }
 
     public void deactivate(Long id) {
-        log.debug("Deactivating entity with id {}", id);
+        log.debug("Deactivating entity with id " + id);
         repository.deactivate(id);
     }
 }

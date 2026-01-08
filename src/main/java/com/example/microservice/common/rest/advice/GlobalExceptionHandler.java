@@ -13,13 +13,14 @@ import jakarta.ws.rs.core.Response;
 import jakarta.ws.rs.core.UriInfo;
 import jakarta.ws.rs.ext.ExceptionMapper;
 import jakarta.ws.rs.ext.Provider;
-import lombok.extern.slf4j.Slf4j;
+import org.jboss.logging.Logger;
 
 import java.util.stream.Collectors;
 
 @Provider
-@Slf4j
 public class GlobalExceptionHandler implements ExceptionMapper<Throwable> {
+
+    private static final Logger log = Logger.getLogger(GlobalExceptionHandler.class);
 
     @Context
     private UriInfo uriInfo;

@@ -1,10 +1,7 @@
 package com.example.microservice.common.exception;
 
-import lombok.Getter;
-
-@Getter
 public enum ErrorCode {
-    
+
     RESOURCE_NOT_FOUND("ERR_001", "Recurso no encontrado", 404),
     VALIDATION_ERROR("ERR_002", "Error de validación", 400),
     UNAUTHORIZED("ERR_003", "No autorizado", 401),
@@ -24,5 +21,17 @@ public enum ErrorCode {
         this.code = code;
         this.message = message;
         this.httpStatus = httpStatus;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public int getHttpStatus() {
+        return httpStatus;
     }
 }

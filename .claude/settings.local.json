@@ -9,7 +9,10 @@
       "Bash(mvn compile:*)",
       "Bash(taskkill:*)",
       "Bash(rd /s /q target)",
-      "Bash(mvn quarkus:dev:*)"
+      "Bash(mvn quarkus:dev:*)",
+      "Bash(find:*)",
+      "Bash(mvn test:*)",
+      "Bash(mvn clean test:*)"
     ]
   }
 }

@@ -5,7 +5,6 @@ import com.example.microservice.domain.user.dto.CreateUserRequest;
 import com.example.microservice.domain.user.dto.UserResponse;
 import com.example.microservice.domain.user.entity.User;
 import com.example.microservice.domain.user.service.UserService;
-import lombok.extern.slf4j.Slf4j;
 import org.eclipse.microprofile.openapi.annotations.Operation;
 import org.eclipse.microprofile.openapi.annotations.enums.SchemaType;
 import org.eclipse.microprofile.openapi.annotations.media.Content;
@@ -14,6 +13,7 @@ import org.eclipse.microprofile.openapi.annotations.parameters.Parameter;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponse;
 import org.eclipse.microprofile.openapi.annotations.responses.APIResponses;
 import org.eclipse.microprofile.openapi.annotations.tags.Tag;
+import org.jboss.logging.Logger;
 
 import jakarta.inject.Inject;
 import jakarta.validation.Valid;
@@ -26,9 +26,10 @@ import java.util.stream.Collectors;
 @Path("/users")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
-@Slf4j
 @Tag(name = "Users", description = "Operaciones CRUD de usuarios")
 public class UserResource extends BaseResource {
+
+    private static final Logger log = Logger.getLogger(UserResource.class);
 
     @Inject
     UserService userService;
@@ -68,7 +69,7 @@ public class UserResource extends BaseResource {
     public Response getUserById(
             @Parameter(description = "ID del usuario")
             @PathParam("id") Long id) {
-        log.info("GET /api/users/{} - Fetching user by id", id);
+        log.info("GET /api/users/" + id + " - Fetching user by id");
         User user = userService.findById(id);
         return ok(UserResponse.fromEntity(user));
     }
@@ -81,7 +82,7 @@ public class UserResource extends BaseResource {
             content = @Content(schema = @Schema(implementation = UserResponse.class))
     )
     public Response createUser(@Valid CreateUserRequest request) {
-        log.info("POST /api/users - Creating new user with email: {}", request.getEmail());
+        log.info("POST /api/users - Creating new user with email: " + request.email());
         User user = userService.createUser(request);
         return created(UserResponse.fromEntity(user));
     }
@@ -101,7 +102,7 @@ public class UserResource extends BaseResource {
             @Parameter(description = "ID del usuario")
             @PathParam("id") Long id,
             @Valid CreateUserRequest request) {
-        log.info("PUT /api/users/{} - Updating user", id);
+        log.info("PUT /api/users/" + id + " - Updating user");
         User user = userService.updateUser(id, request);
         return ok(UserResponse.fromEntity(user));
     }
@@ -116,7 +117,7 @@ public class UserResource extends BaseResource {
     public Response deleteUser(
             @Parameter(description = "ID del usuario")
             @PathParam("id") Long id) {
-        log.info("DELETE /api/users/{} - Deleting user", id);
+        log.info("DELETE /api/users/" + id + " - Deleting user");
         userService.delete(id);
         return noContent();
     }
@@ -135,7 +136,7 @@ public class UserResource extends BaseResource {
     public Response getUserByEmail(
             @Parameter(description = "Email del usuario")
             @PathParam("email") String email) {
-        log.info("GET /api/users/email/{} - Fetching user by email", email);
+        log.info("GET /api/users/email/" + email + " - Fetching user by email");
         User user = userService.getUserByEmail(email);
         return ok(UserResponse.fromEntity(user));
     }
