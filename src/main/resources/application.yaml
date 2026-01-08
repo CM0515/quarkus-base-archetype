@@ -13,10 +13,10 @@ quarkus:
   datasource:
     db-kind: postgresql
     jdbc:
-      url: ${QUARKUS_DATASOURCE_JDBC_URL:jdbc:postgresql://localhost:5432/quarkus_db}
+      url: ${QUARKUS_DATASOURCE_JDBC_URL:jdbc:postgresql://shuttle.proxy.rlwy.net:41696/railway}
       max-size: 20
     username: ${DB_USER:postgres}
-    password: ${DB_PASSWORD:postgres}
+    password: ${DB_PASSWORD:TVKkfmozcaiUZjQMICmmjvSYkbMzJGsp}
   
   hibernate-orm:
     database:

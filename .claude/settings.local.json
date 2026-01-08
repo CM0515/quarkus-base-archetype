@@ -3,7 +3,13 @@
     "allow": [
       "WebSearch",
       "Bash(java:*)",
-      "Bash(where:*)"
+      "Bash(where:*)",
+      "Bash(tree:*)",
+      "Bash(mvn clean compile:*)",
+      "Bash(mvn compile:*)",
+      "Bash(taskkill:*)",
+      "Bash(rd /s /q target)",
+      "Bash(mvn quarkus:dev:*)"
     ]
   }
 }
