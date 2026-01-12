@@ -9,6 +9,9 @@ import com.example.microservice.domain.client.application.usecase.update.UpdateC
 import com.example.microservice.domain.client.domain.model.Client;
 import com.example.microservice.domain.client.infrastructure.rest.dto.ClientRequestDTO;
 import com.example.microservice.domain.client.infrastructure.rest.dto.UpdateClientRequestDTO;
+import io.smallrye.mutiny.Multi;
+import io.smallrye.mutiny.Uni;
+import io.smallrye.mutiny.infrastructure.Infrastructure;
 import jakarta.validation.Valid;
 import jakarta.ws.rs.*;
 import jakarta.ws.rs.core.MediaType;
@@ -38,42 +41,44 @@ public class ClientResource {
 
 
     @GET
-    public Response getAll() {
-        List<Client> clients = getAllClientsUsecase.execute();
-        List<ClientResponse> response = clients.stream()
-                .map(mapper::toResponse)
-                .toList();
-
-        return Response.ok(response).build();
+    public Multi<ClientResponse> getAll() {
+        return Uni.createFrom().item(getAllClientsUsecase::execute)
+                .runSubscriptionOn(Infrastructure.getDefaultWorkerPool())
+                .onItem().transformToMulti(clients -> Multi.createFrom().iterable(clients))
+                .map(mapper::toResponse);
     }
 
     @POST()
-    public Response create(@Valid ClientRequestDTO request) {
-        CreateClientCommand command = new CreateClientCommand(
-                request.name(),
-                request.email(),
-                request.phone(),
-                request.address(),
-                request.role()
-        );
-        ClientResponse response = createClientUseCase.execute(command);
-        return Response.status(Response.Status.CREATED).entity(response).build();
+    public Uni<Response> create(@Valid ClientRequestDTO request) {
+        return Uni.createFrom().item(() -> {
+            CreateClientCommand command = new CreateClientCommand(
+                    request.name(),
+                    request.email(),
+                    request.phone(),
+                    request.address(),
+                    request.role()
+            );
+            ClientResponse response = createClientUseCase.execute(command);
+            return Response.status(Response.Status.CREATED).entity(response).build();
+        }).runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
     }
 
     @PUT
     @Path("/{id}")
-    public Response run(
+    public Uni<Response> run(
             @PathParam("id") Long id,
             @Valid UpdateClientRequestDTO request
     ){
-        UpdateClientCommand command = new UpdateClientCommand(
-                request.name(),
-                request.email(),
-                request.phone(),
-                request.address(),
-                request.role()
-        );
+        return Uni.createFrom().item(() -> {
+            UpdateClientCommand command = new UpdateClientCommand(
+                    request.name(),
+                    request.email(),
+                    request.phone(),
+                    request.address(),
+                    request.role()
+            );
 
-        return Response.ok(updateClientUseCase.execute(command,id)).build();
+            return Response.ok(updateClientUseCase.execute(command,id)).build();
+        }).runSubscriptionOn(Infrastructure.getDefaultWorkerPool());
     }
 }

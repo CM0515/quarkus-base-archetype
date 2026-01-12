@@ -1,15 +1,15 @@
 package com.example.microservice.domain.client.infrastructure.rest.dto;
 
 import com.example.microservice.domain.client.domain.model.ClientRole;
-import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.NotBlank;
+
+import java.util.Optional;
 
 public record UpdateClientRequestDTO(
-        @NotBlank String name,
-        @NotBlank @Email String email,
-        String phone,
-        String address,
-        ClientRole role
+        Optional<String> name,
+        Optional<String> email,
+        Optional<String> phone,
+        Optional<String> address,
+        Optional<ClientRole> role
 
 ) {
 }

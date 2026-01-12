@@ -12,7 +12,9 @@
       "Bash(mvn quarkus:dev:*)",
       "Bash(find:*)",
       "Bash(mvn test:*)",
-      "Bash(mvn clean test:*)"
+      "Bash(mvn clean test:*)",
+      "Bash(git rm:*)",
+      "Bash(git add:*)"
     ]
   }
 }
