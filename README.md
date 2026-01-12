@@ -72,9 +72,10 @@ cd quarkus-base-archetype
 
 # Ejecutar en modo desarrollo (hot-reload)
 ./mvnw quarkus:dev
+qurakus dev
 
 # La aplicación estará disponible en http://localhost:8080
-# Swagger UI: http://localhost:8080/q/swagger-ui/
+# Swagger UI: http://localhost:8080/api/swagger-ui
 # Prometheus: http://localhost:8080/q/metrics/
 ```
 

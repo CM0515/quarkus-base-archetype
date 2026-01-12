@@ -1,11 +1,11 @@
 package com.example.microservice.common.rest.advice;
 
-import com.example.microservice.common.domain.exception.DomainException;
 import com.example.microservice.common.dto.ErrorResponse;
 import com.example.microservice.common.exception.AppException;
 import com.example.microservice.common.exception.ErrorCode;
-import com.example.microservice.user.domain.exception.DuplicateEmailException;
-import com.example.microservice.user.domain.exception.UserNotFoundException;
+import com.example.microservice.domain.user.exception.DomainException;
+import com.example.microservice.domain.user.exception.DuplicateEmailException;
+import com.example.microservice.domain.user.exception.UserNotFoundException;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.ws.rs.core.Context;

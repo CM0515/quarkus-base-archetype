@@ -20,7 +20,7 @@ quarkus:
   
   hibernate-orm:
     database:
-      generation: validate
+      generation: update
       generation-halt-on-error: true
     sql-load-script: no-file
     physical-naming-strategy: org.hibernate.boot.model.naming.PhysicalNamingStrategyStandardImpl
