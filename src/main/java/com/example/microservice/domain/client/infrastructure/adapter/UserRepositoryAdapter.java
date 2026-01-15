@@ -5,7 +5,6 @@ import com.example.microservice.domain.client.domain.model.ClientRole;
 import com.example.microservice.domain.client.domain.port.out.ClientRepository;
 import com.example.microservice.domain.client.infrastructure.entity.ClientEntity;
 import com.example.microservice.domain.client.infrastructure.repository.UserPanacheRepository;
-import com.example.microservice.domain.user.entity.User;
 import jakarta.enterprise.context.ApplicationScoped;
 
 import java.util.List;

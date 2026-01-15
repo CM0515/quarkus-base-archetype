@@ -1,7 +1,6 @@
 package com.example.microservice.domain.client.infrastructure.entity;
 
 import com.example.microservice.domain.client.domain.model.ClientRole;
-import com.example.microservice.domain.user.entity.User;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 import jakarta.persistence.Entity;
